@@ -1,18 +1,47 @@
+/**
+ * Clase que posee el objeto que actuara como radio con sus métodos.
+ * @author Diego Castillo
+ * @author Henry Guzmán
+ * @since 2026-01-23
+ */
 public class RadioImpl implements Radio {
+	/**
+	 * Atributo que permite indica su estado de encendido o apagado.
+	 */
     private boolean encendido;
+    
+    /**
+     * Atributo que indica el modo de la frecuencia AM o FM.
+     */
     private boolean modoAM;
+    
+    /**
+     * Atributo que indica la frecuencia que se utiliza.
+     */
     private double frecuenciaActual;
+    
+    /**
+     * Atributo que almacena botones para cambiar a frecuencia específica (12)
+     */
     private double[] botones;
 
-
+    /**
+     * Atributos que limitan las frecuencias del modo AM.
+     */
     private static final double AM_MIN = 530;
     private static final double AM_MAX = 1610;
     private static final double AM_STEP = 10;
 
+    /**
+     * Atributos que limitan las frecuencias del modo FM.
+     */
     private static final double FM_MIN = 87.9;
     private static final double FM_MAX = 107.9;
     private static final double FM_STEP = 0.2;
 
+    /**
+     * Constructor principal de la clase.
+     */
     public RadioImpl() {
         this.encendido = false;
         this.modoAM = true;
@@ -24,6 +53,9 @@ public class RadioImpl implements Radio {
         }
     }
 
+    /**
+     * Método de interfaz que cambia el estado de la radio a encendido.
+     */
     @Override
     public void prenderRadio() {
         if (!encendido) {
@@ -35,6 +67,10 @@ public class RadioImpl implements Radio {
         }
     }
 
+    /**
+     * Método de interfaz que cambia el estado de la radio a apagado.
+     * @return encendido en valor falso
+     */
     @Override
     public void apagarRadio() {
         if (encendido) {
@@ -43,8 +79,12 @@ public class RadioImpl implements Radio {
         } else {
             System.out.println("El radio ya está apagado");
         }
+        return;
     }
 
+    /**
+     * Método de interfaz que cambia la frecuencia según el modo.
+     */
     @Override
     public void avanzarEstacion() {
         if (!encendido) {
@@ -67,6 +107,10 @@ public class RadioImpl implements Radio {
         mostrarEstado();
     }
 
+    /**
+     * Método de interfaz que guarda una estación en un botón específico.
+     * @param numeroBoton indica el botón a usar (entre 1 y 12).
+     */
     @Override
     public void guardarEstacion(int numeroBoton) {
         if (!encendido) {
@@ -85,6 +129,10 @@ public class RadioImpl implements Radio {
                 frecuenciaActual + " " + banda);
     }
 
+    /**
+     * Método de interfaz que cambia de frecuencia según un botón específico.
+     * @param numeroBoton indica el botón a usar (entre 1 y 12).
+     */
     @Override
     public void cargarEstacion(int numeroBoton) {
         if (!encendido) {
@@ -116,6 +164,9 @@ public class RadioImpl implements Radio {
         mostrarEstado();
     }
 
+    /**
+     * Método de interfaz que cambia el modo a FM.
+     */
     @Override
     public void cambiarFM() {
         if (!encendido) {
@@ -134,6 +185,9 @@ public class RadioImpl implements Radio {
         mostrarEstado();
     }
 
+    /**
+     * Método de interfaz que cambia el modo a AM.
+     */
     @Override
     public void cambiarAM() {
         if (!encendido) {
@@ -152,6 +206,9 @@ public class RadioImpl implements Radio {
         mostrarEstado();
     }
 
+    /**
+     * Método que muestra en que modo de frecuencia se encuentra la radio.
+     */
     private void mostrarEstado() {
         String banda = modoAM ? "AM" : "FM";
         System.out.println("-------------------------------------------------------");
@@ -159,6 +216,9 @@ public class RadioImpl implements Radio {
         System.out.println("-------------------------------------------------------");
     }
 
+    /**
+     * Método que muestra los botones y sus frecuencias específicas.
+     */
     public void mostrarBotonesGuardados() {
         System.out.println("\n Emisoras guardadas:");
         System.out.println("=====================================");
@@ -171,5 +231,53 @@ public class RadioImpl implements Radio {
             }
         }
         System.out.println("=====================================\n");
+    }
+    
+    
+    /**
+     * Método para JUnit devuelve el estado de encendido de la radio.
+     * @return encendido es true o false
+     */
+    public boolean isEncendido() {
+        return encendido;
+    }
+    
+    /**
+     * Método para JUnit obtiene la frecuencia del modo AM.
+     * @return frecuenciaActual la frecuencia en la que esta el modo AM.
+     */
+    public int getEstacionAM() {
+        if (!modoAM) {
+            throw new IllegalStateException("La radio no está en modo AM");
+        }
+        return (int) frecuenciaActual;
+    }
+    
+    /**
+     * Método para JUnit obtiene el modo de frecuencia.
+     * @return modoAM que puede ser AM o FM.
+     */
+    public String getBanda() {
+        return modoAM ? "AM" : "FM";
+    }
+    
+    /**
+     * Método para JUnit obtiene la estación.
+     * @return frecuenciaActual la estación actual en cualquier modo.
+     */
+    public double getEstacionActual() {
+        return frecuenciaActual;
+    }
+    
+    /**
+     * Método para JUnit obtiene el botón.
+     * @param numeroBoton el botón a usar (entre 1 y 12)
+     * @return botón de mayor frecuencia de uso.
+     */
+    public double getFrecuenciaBoton(int numeroBoton) {
+        if (numeroBoton < 1 || numeroBoton > 12) {
+            throw new IllegalArgumentException("Botón inválido");
+        }
+        return botones[numeroBoton - 1];
     }
 }

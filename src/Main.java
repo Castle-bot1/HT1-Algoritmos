@@ -1,15 +1,37 @@
+/**
+ * Clase principal y menú que interactua con el usuario.
+ * @author Diego Castillo
+ * @author Henry Guzmán
+ * @since 2026-01-23
+ */
+
 import java.util.Scanner;
 
 public class Main {
+	/**
+	 * Método principal para ejecutar la radio.
+	 * @param args argumentos para el comando.
+	 */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        
+        /**
+    	 * Se crea el objeto radio como implementación de una clase.
+    	 */
         Radio radio = new RadioImpl();
+        
+        /**
+         * La variable continuar crea un ciclo para navegar en el menú.
+         */
         boolean continuar = true;
 
         System.out.println("-------------------------------------");
         System.out.println("   SIMULADOR DEL RADIO DE CARRO    ");
         System.out.println("-------------------------------------\n");
 
+        /**
+         * Se inicia el menú que permite al usuario seleccionar las opciones.
+         */
         while (continuar) {
             mostrarMenu();
 
@@ -66,7 +88,12 @@ public class Main {
                         System.out.println("Opción incorrecta. Intenta de nuevo.\n");
                 }
 
-            } catch (Exception e) {
+            } 
+            
+            /**
+             * @exception al haber un error por entrada del usuario.
+             */
+            catch (Exception e) {
                 System.out.println("Error: Entrada incorrecta. Intenta de nuevo.\n");
                 scanner.nextLine();
             }
@@ -79,6 +106,9 @@ public class Main {
         scanner.close();
     }
 
+    /**
+     * Muestra el menú al usuario.
+     */
     private static void mostrarMenu() {
         System.out.println("\n-------------------------------------");
         System.out.println("|             MENU RADIO            |");
@@ -95,6 +125,10 @@ public class Main {
         System.out.println("-------------------------------------");
     }
 
+    /**
+     * Permite al usuario reiniciar el programa.
+     * @param scanner permite ingresar datos al usuario.
+     */
     private static void esperarEnter(Scanner scanner) {
         System.out.println("\nPresiona Enter para continuar...");
         scanner.nextLine();
